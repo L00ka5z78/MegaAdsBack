@@ -1,20 +1,19 @@
-import {AddEntity, NewAdEntity} from "../types";
+import {AdEntity, NewAdEntity, SimpleAdEntity} from "../types";
 import { pool } from "../utils/db";
 import {ValidationError} from "../utils/error";
 import {FieldPacket} from "mysql2";
 
-type AdRecordResults = [AddEntity[], FieldPacket[]]
+type AdRecordResults = [AdEntity[], FieldPacket[]]
 
-export class AdRecord implements AddEntity {
-
+export class AdRecord implements AdEntity {
     public id: string;
+
     public name: string;
     public description: string;
     public price: number;
     public url: string;
     public lat: number;
     public lon: number;
-
     constructor(obj: NewAdEntity) {
         if (!obj.name || obj.name.length > 100) {
             throw new ValidationError("Ads name can't be empty or includes more than 100 characters")
@@ -43,9 +42,22 @@ export class AdRecord implements AddEntity {
     }
 
     static async getOne(id: string): Promise<AdRecord | null> {
-  const [results] = await pool.execute("SELECT * FROM `ads` WHERE id = :id", {
+  const [results] = await pool.execute("SELECT * FROM `ads` WHERE `id` = :id", {
        id,
    }) as AdRecordResults
         return results.length === 0 ? null :new AdRecord(results[0])
     }
-}
+
+    static async findAll(name: string): Promise<SimpleAdEntity[]> {
+        const [results] = await pool.execute("SELECT * FROM `ads` WHERE `name` LIKE :search", {
+            search: `%${name}%`
+        }) as AdRecordResults;
+
+        return results.map(result => {
+            const {id, lat, lon,
+            } = result;
+            return {
+                id, lat, lon,
+            }
+        })
+    }}
