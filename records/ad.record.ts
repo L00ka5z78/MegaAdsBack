@@ -2,14 +2,15 @@ import {AdEntity, NewAdEntity, SimpleAdEntity} from "../types";
 import { pool } from "../utils/db";
 import {ValidationError} from "../utils/error";
 import {FieldPacket} from "mysql2";
+import {v4 as uuid} from 'uuid';
 
 type AdRecordResults = [AdEntity[], FieldPacket[]]
 
 export class AdRecord implements AdEntity {
     public id: string;
-
     public name: string;
     public description: string;
+
     public price: number;
     public url: string;
     public lat: number;
@@ -40,6 +41,7 @@ export class AdRecord implements AdEntity {
         this.lon = obj.lon;
 
     }
+// CRUD OPERATIONS
 
     static async getOne(id: string): Promise<AdRecord | null> {
   const [results] = await pool.execute("SELECT * FROM `ads` WHERE `id` = :id", {
@@ -60,4 +62,15 @@ export class AdRecord implements AdEntity {
                 id, lat, lon,
             }
         })
-    }}
+    }
+
+    async insert() {
+       if (!this.id) {
+           this.id = uuid();
+       } else {
+           throw new Error('Cant create something that is inserted already!')
+       }
+       await pool.execute("INSERT INTO `ads` (`id`, `name`, `description`, `price`, `url`, `lat`, `lon`) VALUES(:id, :name, :description, :price, :url, :lat, :lon)", this)
+
+    }
+}
