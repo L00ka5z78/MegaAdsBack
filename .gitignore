@@ -133,3 +133,5 @@ dist
 readmeOGOLNY.txt
 readmeScripts.txt
 readmeTEST.txt
+
+config/config.ts
