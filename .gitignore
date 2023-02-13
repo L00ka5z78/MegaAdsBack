@@ -129,7 +129,7 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-/utils/db.ts
+
 readmeOGOLNY.txt
 readmeScripts.txt
 readmeTEST.txt
