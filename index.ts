@@ -1,4 +1,4 @@
-import express, {json} from "express";
+import express, {json, Router} from "express";
 import cors from 'cors';
 import 'express-async-errors';
 import {handleError} from "./utils/error";
@@ -18,8 +18,12 @@ app.use(rateLimit({
 
 //Routes
 
+const router = Router()
+router.use('/ad', adRouter) // doda prefiksy do wszystkich sciezek
+app.use('/api', router) // aplikacja uzywa wszystkiego co zaczyna sie api
 
-app.use('/ad', adRouter);
+// app.use('/ad', adRouter);    //bylo
+// app.use('/api/ad', adRouter);   // do network mngr
 
 app.use(handleError)
 
