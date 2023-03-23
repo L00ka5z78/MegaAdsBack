@@ -14,11 +14,11 @@ So it is not my own work. In general, in this state I added just few links to ma
 But it is, as it is.
 
 ### Tech stack:
-ExpressJs, Typescript, MySql database No frontend. Instead of this one use Express Handlebars to simulate it.
+ExpressJs, Typescript, MySql database React, testing with JEST.
 
 ### To run the project:
-Clone the  frontend repository: git clone https://github.com/L00ka5z78/MegaAdsFront
-and clone the backend: git clone https://github.com/L00ka5z78/MegaAdsBack
+1. Clone the  frontend repository: git clone https://github.com/L00ka5z78/MegaAdsFront
+ 2. Clone the backend: git clone https://github.com/L00ka5z78/MegaAdsBack
 
 ### Install required dependencies.
 Start the frontend and start the backend 
